@@ -87,6 +87,7 @@
 
         .gachaButtonArea .d1 {
             padding-top: 13px;
+            position: relative;
         }
 
         .gachaButtonArea .d2 {
@@ -156,17 +157,17 @@
         }
 
         #meruChan {
+            left: calc(45% - 180px);
+            top: -40%;
             position: absolute;
-            left: 0;
-            bottom: 11.1%;
             transform: scale(0.45);
             transform-origin: 0 0;
         }
 
         .balloon {
             position: absolute;
-            left: 15px;
-            bottom: 33%;
+            left: calc(45% - 170px);
+            bottom: 130%;
             display: inline-block;
             margin: 1.5em 0;
             padding: 7px 10px;
@@ -182,6 +183,7 @@
             background: rgba(255, 255, 255, 0.8);
             user-select: none;
             -webkit-user-select: none;
+            text-align: left;
         }
 
         .balloon:before {
@@ -233,13 +235,15 @@
 <body>
 
 
-    <div id="balloon" class="balloon hidden">
-        <p id="balloon2"></p>
-    </div>
-    <img id="meruChan" src="/img/meru0.png" />
+
+
     <div id="result"></div>
     <div class="gachaButtonArea">
-        <div class="d1">クリスタル: <span id="cristal">0</span><br><span id="lege_counter">レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)</span></div>
+        <div class="d1">
+            <div id="balloon" class="balloon hidden">
+                <p id="balloon2"></p>
+            </div><img id="meruChan" src="/img/meru0.png" />クリスタル: <span id="cristal">0</span><br><span id="lege_counter">レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)</span>
+        </div>
         <div class="d2"><button id="button1">1回開ける<br><span class="cristal">💎100</span></button><button id="button11">10+1回開ける<br><span class="cristal">💎1000</span></button><button id="button_reset">リセット<br>する</button></div>
         <div class="d3"><a href="#" onclick="showModal('about');return false" class="about">このページについて</a><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://l0meruplz.github.io/gacha/" data-text="MapleStory M Buki Gacha Simulator">Tweet</a></div>
 
