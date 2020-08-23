@@ -70,7 +70,7 @@
             padding-top: 10px;
             padding-bottom: 10px;
             overflow: auto;
-            height: 70%;
+            height: 67.5%;
             width: 100%;
             font-size: 30px;
             text-align: center;
@@ -80,7 +80,7 @@
             box-sizing: border-box;
             padding-top: 10px;
             width: 100%;
-            height: 30%;
+            height: 32.5%;
             background: #ddd;
             text-align: center;
         }
@@ -132,7 +132,8 @@
             padding: 2px 5px;
         }
 
-        .gachaButtonArea #button11 .cristal {
+        .gachaButtonArea #button11 .cristal,
+        .gachaButtonArea #button11sp .cristal {
             background: #e26245;
             padding: 2px 5px;
         }
@@ -142,7 +143,8 @@
             box-shadow: 0 3px #4f769f;
         }
 
-        .gachaButtonArea #button11 {
+        .gachaButtonArea #button11,
+        .gachaButtonArea #button11sp {
             background: #ec845f;
             box-shadow: 0 3px #e26245;
         }
@@ -244,7 +246,9 @@
                 <p id="balloon2"></p>
             </div><img id="meruChan" src="/img/meru0.png" />クリスタル: <span id="cristal">0</span><br><span id="lege_counter">レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)</span>
         </div>
-        <div class="d2"><button id="button1">1回開ける<br><span class="cristal">💎100</span></button><button id="button11">10+1回開ける<br><span class="cristal">💎1000</span></button><button id="button_reset">リセット<br>する</button></div>
+        <div class="d2">
+            <div><a href="#" onclick="changeBox();return false" id="boxChanger">スペシャル宝箱</a></div><span id="normalBox"><button id="button1">1回開ける<br><span class="cristal">💎100</span></button><button id="button11">10+1回開ける<br><span class="cristal">💎1000</span></button></span><span id="specialBox" class="hidden"><button id="button11sp">10+1回開ける<br><span class="cristal">💎2400</span></button></span><button id="button_reset">リセット<br>する</button>
+        </div>
         <div class="d3"><a href="#" onclick="showModal('about');return false" class="about">このページについて</a><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://l0meruplz.github.io/gacha/" data-text="MapleStory M Buki Gacha Simulator">Tweet</a></div>
 
     </div>
@@ -257,10 +261,13 @@
     <script>
         var st = null;
         document.getElementById('button1').addEventListener('click', function() {
-            gacha(1);
+            gacha(1, 'normal');
         });
         document.getElementById('button11').addEventListener('click', function() {
-            gacha(11);
+            gacha(11, 'normal');
+        });
+        document.getElementById('button11sp').addEventListener('click', function() {
+            gacha(11, 'sp');
         });
         document.getElementById('button_reset').addEventListener('click', function() {
             if (confirm('本当に初めからやる？')) {
@@ -273,6 +280,8 @@
         colorU = "#fc873d";
         colorE = "#9c62e9";
         //colorR = "#2b9cfd";
+
+
 
         function init() {
             result.innerHTML = "<h1 class='title'>MapleStory M<br>Buki Gacha Simulator</h1>";
@@ -294,6 +303,20 @@
             meruWalkState = 0;
             meruWalkCount = 0;
             meruStop = true;
+            legNormalBox_p = {
+                "100": 0.83,
+                "120": 0.35,
+                "140": 0.13,
+                "160": 0.09,
+                "total": 1.4
+            };
+            legSPBox_p = {
+                "100": 2.49,
+                "120": 1.05,
+                "140": 0.39,
+                "160": 0.27,
+                "total": 4.2
+            };
             balloon.classList.add('hidden');
             if (!st) {
                 clearTimeout(st);
@@ -301,12 +324,17 @@
             }
         }
 
-        function gacha(n) {
+        function gacha(n, type) {
             meruWalk();
             var items = [];
+            if (type === "sp") {
+                leg_p = legSPBox_p;
+            } else {
+                leg_p = legNormalBox_p;
+            }
             for (var i = 0; i < n; i++) {
                 item_p = secureMathRandom() * 100;
-                if (item_p < 1.4) {
+                if (item_p < leg_p["total"]) {
                     mark = "";
                     mark_p = secureMathRandom() * 100;
                     if (mark_p < 19.16) {
@@ -323,29 +351,33 @@
                             mark = "クリダメ"
                         }
                     }
-                    if (item_p < 0.83) {
+                    if (item_p < leg_p["100"]) {
                         lege100++;
                         items.push(`<font color=${colorL}>■100` + (mark && `<font size="1">(紋：${mark})</font>`) + "</font>");
-                    } else if (item_p < (0.83 + 0.35)) {
+                    } else if (item_p < (leg_p["100"] + leg_p["120"])) {
                         lege120++;
                         items.push(`<font color=${colorL}>■120` + (mark && `<font size="1">(紋：${mark})</font>`) + "</font>");
-                    } else if (item_p < (0.83 + 0.35 + 0.13)) {
+                    } else if (item_p < (leg_p["100"] + leg_p["120"] + leg_p["140"])) {
                         lege140++;
                         items.push(`<font color=${colorL}>■140` + (mark && `<font size="1">(紋：${mark})</font>`) + "</font>");
                     } else {
                         lege160++;
                         items.push(`<font color=${colorL}>■160` + (mark && `<font size="1">(紋：${mark})</font>`) + "</font>");
                     }
-                } else if (item_p < (1.4 + 25)) {
+                } else if (type === 'sp' || item_p < (leg_p["total"] + 25)) {
                     items.push(`<font color=${colorU}>■</font>`);
                 } else {
                     items.push(`<font color=${colorE}>■</font>`);
                 }
             }
-            if (n === 1) {
-                usedCristal = 100
+            if (type === "sp") {
+                usedCristal = 2400;
             } else {
-                usedCristal = 1000
+                if (n === 1) {
+                    usedCristal = 100
+                } else {
+                    usedCristal = 1000
+                }
             }
             cristal.innerHTML = Number(cristal.innerHTML) + usedCristal;
             irairaCrisital += usedCristal;
@@ -437,7 +469,7 @@
             switch (type) {
                 case 'about':
                     modalDialog.innerHTML = `<h1>🍁MapleStory M Buki Gacha Simulator🍁</h1>
-            <p>MapleStory Mの武器宝箱を引いた気になれるツールです。排出確率は公表されている確率情報に従って設定されています。確率情報およびこのツールの実装に間違いがなければ、同じ条件で排出されるはずです。確率は2020年1月25日現在のものです。 </p>作成者:l0メル下さい(<a href="https://twitter.com/l0meruplz" target="_blank">@l0meruplz</a>)`;
+            <p>MapleStory Mの武器宝箱を引いた気になれるツールです。排出確率は公表されている<a href="https://forum.nexon.co.jp/maplestorym/maplestorynote/3546" target="_blank">確率情報</a>に従って設定されています。確率情報およびこのツールの実装に間違いがなければ、同じ条件で排出されるはずです。確率は2020年8月24日現在のものです。 </p>作成者:l0メル下さい(<a href="https://twitter.com/l0meruplz" target="_blank">@l0meruplz</a>)`;
                     break;
                 default:
                     break;
@@ -537,6 +569,19 @@
                 }, ms);
             }
         }
+
+        function changeBox() {
+            if (specialBox.classList.length !== 0) {
+                specialBox.classList.remove('hidden');
+                normalBox.classList.add('hidden');
+                boxChanger.innerHTML = "通常の宝箱";
+            } else {
+                specialBox.classList.add('hidden');
+                normalBox.classList.remove('hidden');
+                boxChanger.innerHTML = "スペシャル宝箱";
+            }
+        }
+
         say('hello');
     </script>
 </body>
