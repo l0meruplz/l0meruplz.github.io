@@ -304,11 +304,11 @@
             meruWalkCount = 0;
             meruStop = true;
             legNormalBox_p = {
-                "100": 0.83,
-                "120": 0.35,
-                "140": 0.13,
-                "160": 0.09,
-                "total": 1.4
+                "100": 1.245,
+                "120": 0.525,
+                "140": 0.195,
+                "160": 0.135,
+                "total": 2.1
             };
             legSPBox_p = {
                 "100": 2.49,
@@ -364,7 +364,7 @@
                         lege160++;
                         items.push(`<font color=${colorL}>■160` + (mark && `<font size="1">(紋：${mark})</font>`) + "</font>");
                     }
-                } else if (type === 'sp' || item_p < (leg_p["total"] + 25)) {
+                } else if (type === 'sp' || item_p < (leg_p["total"] + 50)) {
                     items.push(`<font color=${colorU}>■</font>`);
                 } else {
                     items.push(`<font color=${colorE}>■</font>`);
@@ -469,7 +469,7 @@
             switch (type) {
                 case 'about':
                     modalDialog.innerHTML = `<h1>🍁MapleStory M Buki Gacha Simulator🍁</h1>
-            <p>MapleStory Mの武器宝箱を引いた気になれるツールです。排出確率は公表されている<a href="https://forum.nexon.co.jp/maplestorym/maplestorynote/3546" target="_blank">確率情報</a>に従って設定されています。確率情報およびこのツールの実装に間違いがなければ、同じ条件で排出されるはずです。確率は2020年8月24日現在のものです。 </p>作成者:l0メル下さい(<a href="https://twitter.com/l0meruplz" target="_blank">@l0meruplz</a>)`;
+            <p>MapleStory Mの武器宝箱を引いた気になれるツールです。排出確率は公表されている確率情報に従って設定されています。確率情報およびこのツールの実装に間違いがなければ、同じ条件で排出されるはずです。確率は2023年7月20日現在のものです。 </p>作成者:l0メル下さい(<a href="https://twitter.com/l0meruplz" target="_blank">@l0meruplz</a>)`;
                     break;
                 default:
                     break;
