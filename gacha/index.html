@@ -127,13 +127,13 @@
 
         }
 
-        .gachaButtonArea #button1 .cristal {
+        .gachaButtonArea #button1 .crystal {
             background: #4f769f;
             padding: 2px 5px;
         }
 
-        .gachaButtonArea #button11 .cristal,
-        .gachaButtonArea #button11sp .cristal {
+        .gachaButtonArea #button11 .crystal,
+        .gachaButtonArea #button11sp .crystal {
             background: #e26245;
             padding: 2px 5px;
         }
@@ -153,7 +153,7 @@
             background: #888;
         }
 
-        .gachaButtonArea #cristal {
+        .gachaButtonArea #crystal {
             font-weight: bold;
             font-size: 25px;
         }
@@ -244,10 +244,10 @@
         <div class="d1">
             <div id="balloon" class="balloon hidden">
                 <p id="balloon2"></p>
-            </div><img id="meruChan" src="/img/meru0.png" />クリスタル: <span id="cristal">0</span><br><span id="lege_counter">レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)</span>
+            </div><img id="meruChan" src="/img/meru0.png" />クリスタル: <span id="crystal">0</span><br><span id="lege_counter">レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)</span>
         </div>
         <div class="d2">
-            <div><a href="#" onclick="changeBox();return false" id="boxChanger">スペシャル宝箱</a></div><span id="normalBox"><button id="button1">1回開ける<br><span class="cristal">💎100</span></button><button id="button11">10+1回開ける<br><span class="cristal">💎1000</span></button></span><span id="specialBox" class="hidden"><button id="button11sp">10+1回開ける<br><span class="cristal">💎2400</span></button></span><button id="button_reset">リセット<br>する</button>
+            <div><a href="#" onclick="changeBox();return false" id="boxChanger">スペシャル宝箱</a></div><span id="normalBox"><button id="button1">1回開ける<br><span class="crystal">💎100</span></button><button id="button11">10+1回開ける<br><span class="crystal">💎1000</span></button></span><span id="specialBox" class="hidden"><button id="button11sp">10+1回開ける<br><span class="crystal">💎2400</span></button></span><button id="button_reset">リセット<br>する</button>
         </div>
         <div class="d3"><a href="#" onclick="showModal('about');return false" class="about">このページについて</a><a href="https://twitter.com/share" class="twitter-share-button" data-url="https://l0meruplz.github.io/gacha/" data-text="MapleStory M Buki Gacha Simulator">Tweet</a></div>
 
@@ -285,7 +285,7 @@
 
         function init() {
             result.innerHTML = "<h1 class='title'>MapleStory M<br>Buki Gacha Simulator</h1>";
-            cristal.innerHTML = "0";
+            crystal.innerHTML = "0";
             tweetLink = "";
             lege100 = 0;
             lege120 = 0;
@@ -297,7 +297,7 @@
             mys160challenge = false;
             start = false;
             irairaCount = 0;
-            irairaCrisital = 0;
+            irairaCrystal = 0;
             lege_counter.innerHTML = "レジェ: 0 = 0(100) + 0(120) + 0(140) + 0(160)"
             meruChan.src = "/img/meru0.png";
             meruWalkState = 0;
@@ -371,17 +371,17 @@
                 }
             }
             if (type === "sp") {
-                usedCristal = 2400;
+                usedCrystal = 2400;
             } else {
                 if (n === 1) {
-                    usedCristal = 100
+                    usedCrystal = 100
                 } else {
-                    usedCristal = 1000
+                    usedCrystal = 1000
                 }
             }
-            cristal.innerHTML = Number(cristal.innerHTML) + usedCristal;
-            irairaCrisital += usedCristal;
-            items.push(`<font color=#808080 size=1>(${Number(cristal.innerHTML)})</font>`);
+            crystal.innerHTML = Number(crystal.innerHTML) + usedCrystal;
+            irairaCrystal += usedCrystal;
+            items.push(`<font color=#808080 size=1>(${Number(crystal.innerHTML)})</font>`);
             var gachaResult = document.createElement('div');
             gachaResult.innerHTML = items.join("");
             result.appendChild(gachaResult);
@@ -395,15 +395,15 @@
             if (!lege140get && lege140 >= 1 && lege160 === 0) {
                 lege140get = true;
                 say('140get');
-                irairaCrisital -= 50000;
-                if (irairaCristal < 0) {
-                    irairaCrisital = 0;
+                irairaCrystal -= 50000;
+                if (irairaCrystal < 0) {
+                    irairaCrystal = 0;
                 }
             }
             if (!lege160get && lege160 === 1) {
                 lege160get = true;
                 irairaCount = 0;
-                irairaCrisital = 0;
+                irairaCrystal = 0;
                 say('congrats');
             }
             if (!mys160get && lege160 >= 2) {
@@ -411,32 +411,32 @@
                 mys160get = true;
                 say('congrats2');
             }
-            if ((!lege160get || (mys160challenge && !mys160get)) && irairaCount === 0 && (50000 <= irairaCrisital)) {
+            if ((!lege160get || (mys160challenge && !mys160get)) && irairaCount === 0 && (50000 <= irairaCrystal)) {
                 irairaCount++;
                 say('iraira');
             }
 
-            if (!lege160get && irairaCount === 1 && (100000 <= irairaCrisital)) {
+            if (!lege160get && irairaCount === 1 && (100000 <= irairaCrystal)) {
                 irairaCount++;
                 say('unimplemented');
             }
 
-            if ((mys160challenge && !mys160get) && irairaCount === 1 && (100000 <= irairaCrisital)) {
+            if ((mys160challenge && !mys160get) && irairaCount === 1 && (100000 <= irairaCrystal)) {
                 irairaCount++;
                 say('doubt');
             }
 
-            if (!lege160get && irairaCount === 2 && (150000 <= irairaCrisital)) {
+            if (!lege160get && irairaCount === 2 && (150000 <= irairaCrystal)) {
                 irairaCount++;
                 say('bug');
             }
 
-            if ((mys160challenge && !mys160get) && irairaCount === 2 && (150000 <= irairaCrisital)) {
+            if ((mys160challenge && !mys160get) && irairaCount === 2 && (150000 <= irairaCrystal)) {
                 irairaCount++;
                 say('moyashi');
             }
 
-            if ((!lege160get || (mys160challenge && !mys160get)) && irairaCount === 3 && (200000 <= irairaCrisital)) {
+            if ((!lege160get || (mys160challenge && !mys160get)) && irairaCount === 3 && (200000 <= irairaCrystal)) {
                 irairaCount++;
                 say('bye');
             }
@@ -549,11 +549,11 @@
                     displayBalloon('やりなおしだ～！', 5000);
                     break;
                 case 'congrats':
-                    displayBalloon(`おめでとう！クリスタル<b>${cristal.innerHTML}</b>個を使って160レジェを初ゲット～！結果を<a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`クリスタル${cristal.innerHTML}個を使って160レジェをゲットしたよ！`)}&url=https://l0meruplz.github.io/gacha/&hashtags=MapleM_BukiGachaSimulator">ツイートする</a>？<br>それとも2個目を引くまで<a onclick="say('160mystic');mys160challenge=true;return false;" href="#">頑張る</a>？`);
+                    displayBalloon(`おめでとう！クリスタル<b>${crystal.innerHTML}</b>個を使って160レジェを初ゲット～！結果を<a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(`クリスタル${crystal.innerHTML}個を使って160レジェをゲットしたよ！`)}&url=https://l0meruplz.github.io/gacha/&hashtags=MapleM_BukiGachaSimulator">ツイートする</a>？<br>それとも2個目を引くまで<a onclick="say('160mystic');mys160challenge=true;return false;" href="#">頑張る</a>？`);
                     break;
                 case 'congrats2':
-                    tweetLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`クリスタル${cristal.innerHTML}個を使って160ミスを作ったよ！`)}&url=https://l0meruplz.github.io/gacha/&hashtags=MapleM_BukiGachaSimulator`;
-                    displayBalloon(`やったぁ！クリスタル<b>${cristal.innerHTML}</b>個を使って2個目の160レジェをゲット！！160ミスデビューだああ！<a href="${tweetLink}">結果をツイート</a>する？<br><a style="float:right;" onclick="say('tweet');return false;" href="#">閉じる</a>`);
+                    tweetLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`クリスタル${crystal.innerHTML}個を使って160ミスを作ったよ！`)}&url=https://l0meruplz.github.io/gacha/&hashtags=MapleM_BukiGachaSimulator`;
+                    displayBalloon(`やったぁ！クリスタル<b>${crystal.innerHTML}</b>個を使って2個目の160レジェをゲット！！160ミスデビューだああ！<a href="${tweetLink}">結果をツイート</a>する？<br><a style="float:right;" onclick="say('tweet');return false;" href="#">閉じる</a>`);
                     break;
                 default:
                     break;
