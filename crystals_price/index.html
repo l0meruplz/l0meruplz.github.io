@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>メイプルストーリーM クリスタルパッケージ比較</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans", "Noto Sans JP", Meiryo, sans-serif;
+      font-size: 14px;
+      padding: 1rem;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      text-align: center;
+      margin: 0;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 480px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      white-space: nowrap;
+    }
+
+    th.sortable {
+      cursor: pointer;
+    }
+
+    th.sort-asc::after {
+      content: ' \2191';
+    }
+
+    th.sort-desc::after {
+      content: ' \2193';
+    }
+
+    td:nth-child(2),
+    td:nth-child(3),
+    td:nth-child(4),
+    th:nth-child(2),
+    th:nth-child(3),
+    th:nth-child(4) {
+      text-align: right;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        font-size: 16px;
+        padding: 2rem;
+      }
+
+      table {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>メイプルM クリスタルパッケージ比較</h1>
+
+  <div class="table-container">
+    <table id="packageTable">
+      <thead>
+        <tr>
+          <th class="sortable" onclick="sortBy('name')">パッケージ名</th>
+          <th class="sortable" onclick="sortBy('unitPrice')">1個当たり</th>
+          <th class="sortable" onclick="sortBy('price')">価格</th>
+          <th class="sortable" onclick="sortBy('crystals')">クリスタル数</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <p style="margin-top: 1.5rem; font-size: 0.85em; color: #555; text-align: center;">
+    データは2025年6月1日現在のものです。<br>
+    価格など間違っていたら教えてください！<br>
+    作成者： <a href="https://twitter.com/l0meruplz" target="_blank">@l0meruplz</a> (l0メル下さい)
+  </p>
+
+  <script>
+    let packages = [];
+    let currentSort = { key: 'unitPrice', asc: true };
+
+    function sortBy(key) {
+      if (currentSort.key === key) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort = { key, asc: true };
+      }
+      sortAndRender();
+    }
+
+    function sortAndRender() {
+      const { key, asc } = currentSort;
+      packages.sort((a, b) => {
+        if (typeof a[key] === 'string') {
+          return asc ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+        } else {
+          return asc ? a[key] - b[key] : b[key] - a[key];
+        }
+      });
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#packageTable tbody');
+      tbody.innerHTML = '';
+      packages.forEach(p => {
+        const formattedUnitPrice = formatWithComma(p.unitPrice.toFixed(3));
+        const row = `<tr>
+          <td>${p.name}</td>
+          <td>¥${formattedUnitPrice}</td>
+          <td>¥${p.price.toLocaleString()}</td>
+          <td>${p.crystals.toLocaleString()}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+
+      document.querySelectorAll('th').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+      });
+
+      const thList = document.querySelectorAll('th.sortable');
+      const keyIndex = { name: 0, unitPrice: 1, price: 2, crystals: 3 };
+      const targetTh = thList[keyIndex[currentSort.key]];
+      targetTh.classList.add(currentSort.asc ? 'sort-asc' : 'sort-desc');
+    }
+
+    function formatWithComma(numStr) {
+      const [intPart, fracPart] = numStr.split('.');
+      return intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + fracPart;
+    }
+
+    fetch('crystal_packages.json')
+      .then(res => res.json())
+      .then(data => {
+        packages = data.map(p => ({
+          ...p,
+          unitPrice: p.price / p.crystals
+        }));
+        sortAndRender();
+      })
+      .catch(err => {
+        document.body.innerHTML = 'error';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
