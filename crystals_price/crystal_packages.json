@@ -213,5 +213,15 @@
     "name": "エリル・ライトハイパー成長パッケージ",
     "price": 4400,
     "crystals": 6517
+  },
+  {
+    "name": "エリル・ライト成長シェアパス+",
+    "price": 3400,
+    "crystals": 5734
+  },
+  {
+    "name": "BLACK FRIDAYスペシャルパッケージ",
+    "price": 900,
+    "crystals": 600
   }
 ]
