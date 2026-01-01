@@ -223,5 +223,10 @@
     "name": "BLACK FRIDAYスペシャルパッケージ",
     "price": 900,
     "crystals": 600
+  },
+  {
+    "name": "新年10000クリスタルパッケージ",
+    "price": 15000,
+    "crystals": 10000
   }
 ]
